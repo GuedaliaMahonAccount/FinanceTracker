@@ -1,0 +1,175 @@
+﻿<Window x:Class="Finance.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Finance"
+        xmlns:loc="clr-namespace:Finance.Localization"
+        xmlns:converters="clr-namespace:Finance.Converters"
+        Title="Finance" 
+        Height="700" 
+        Width="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        WindowStyle="None"
+        AllowsTransparency="True">
+
+    <Window.Resources>
+        <converters:CurrencyDisplayConverter x:Key="CurrencyDisplayConverter"/>
+        <converters:CollectionEmptyToVisibilityConverter x:Key="CollectionEmptyToVisibilityConverter"/>
+        <SolidColorBrush x:Key="PrimaryColor" Color="#2563EB"/>
+        <SolidColorBrush x:Key="AccentColor" Color="#10B981"/>
+        <SolidColorBrush x:Key="DangerColor" Color="#EF4444"/>
+        <SolidColorBrush x:Key="CardBackground" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#1F2937"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#6B7280"/>
+    </Window.Resources>
+
+    <Border Background="#F5F7FA" CornerRadius="12" BorderThickness="0">
+        <DockPanel>
+            <!-- Barre latérale -->
+            <Border DockPanel.Dock="Left" Width="250" Background="#FFFFFF" CornerRadius="12,0,0,12" 
+                    BorderThickness="0,0,1,0" BorderBrush="#E5E7EB">
+                <local:SideBar Loaded="SideBar_Loaded" />
+            </Border>
+
+            <!-- Contenu principal -->
+            <Grid Background="#F5F7FA">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="40">
+                        <!-- En-tête -->
+                        <TextBlock Text="{DynamicResource MainWindow.Title}" 
+                                   FontSize="32" FontWeight="Bold" 
+                                   Foreground="{StaticResource TextPrimary}" Margin="0,0,0,30"/>
+
+                        <!-- Cartes statistiques -->
+                        <Grid Margin="0,0,0,30">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Carte Incomes -->
+                            <Border Grid.Column="0" Background="{StaticResource CardBackground}" 
+                                    CornerRadius="8" Padding="20" Effect="{DynamicResource DropShadow}">
+                                <StackPanel>
+                                    <TextBlock Text="{loc:Translate MainWindow.TotalIncome}" 
+                                               FontSize="12" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,8"/>
+                                    <TextBlock FontSize="24" FontWeight="Bold" Foreground="{StaticResource AccentColor}">
+                                        <Run Text="{Binding TotalIncome, Mode=OneWay, Converter={StaticResource CurrencyDisplayConverter}}" />
+                                    </TextBlock>
+                                    <Border Height="3" Background="{StaticResource AccentColor}" 
+                                            CornerRadius="2" Margin="0,12,0,0" HorizontalAlignment="Left" Width="40"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Carte Expenses -->
+                            <Border Grid.Column="2" Background="{StaticResource CardBackground}" 
+                                    CornerRadius="8" Padding="20" Effect="{DynamicResource DropShadow}">
+                                <StackPanel>
+                                    <TextBlock Text="{loc:Translate MainWindow.TotalExpenses}" 
+                                               FontSize="12" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,8"/>
+                                    <TextBlock FontSize="24" FontWeight="Bold" Foreground="{StaticResource DangerColor}">
+                                        <Run Text="{Binding TotalExpenses, Mode=OneWay, Converter={StaticResource CurrencyDisplayConverter}}" />
+                                    </TextBlock>
+                                    <Border Height="3" Background="{StaticResource DangerColor}" 
+                                            CornerRadius="2" Margin="0,12,0,0" HorizontalAlignment="Left" Width="40"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Carte Total -->
+                            <Border Grid.Column="4" Background="{StaticResource CardBackground}" 
+                                    CornerRadius="8" Padding="20" Effect="{DynamicResource DropShadow}">
+                                <StackPanel>
+                                    <TextBlock Text="{loc:Translate MainWindow.TotalBalance}" 
+                                               FontSize="12" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,8"/>
+                                    <TextBlock FontSize="24" FontWeight="Bold" Foreground="{StaticResource PrimaryColor}">
+                                        <Run Text="{Binding Total, Mode=OneWay, Converter={StaticResource CurrencyDisplayConverter}}" />
+                                    </TextBlock>
+                                    <Border Height="3" Background="{StaticResource PrimaryColor}" 
+                                            CornerRadius="2" Margin="0,12,0,0" HorizontalAlignment="Left" Width="40"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <!-- Bouton Créer un Projet -->
+                        <Border CornerRadius="6" 
+                                Width="200"
+                                HorizontalAlignment="Left"
+                                Margin="0,0,0,30">
+                            <Button Content="{loc:Translate MainWindow.CreateProject}" 
+                                    Padding="16,12" 
+                                    FontSize="14" 
+                                    FontWeight="Bold"
+                                    Foreground="White" 
+                                    Background="{StaticResource PrimaryColor}"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    Click="CreateProjectButton_Click"/>
+                        </Border>
+
+                        <!-- Liste des Projets -->
+                        <TextBlock Text="{loc:Translate MainWindow.YourProjects}" 
+                                   FontSize="18" FontWeight="Bold" 
+                                   Foreground="{StaticResource TextPrimary}" Margin="0,0,0,15"/>
+
+                        <ItemsControl ItemsSource="{Binding Projects}" Margin="0">
+                            <ItemsControl.Resources>
+                                <loc:BindingProxy x:Key="TranslationProxy" Data="{x:Static loc:TranslationManager.Instance}"/>
+                            </ItemsControl.Resources>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{StaticResource CardBackground}" 
+                                            CornerRadius="8" 
+                                            Padding="20"
+                                            Margin="0,0,0,12"
+                                            Effect="{DynamicResource DropShadow}"
+                                            MouseLeftButtonDown="ProjectCard_MouseLeftButtonDown"
+                                            Cursor="Hand">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Name}" 
+                                                       FontSize="16" 
+                                                       FontWeight="Bold"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="{StaticResource TextPrimary}"/>
+                                            <Border Grid.Column="1" CornerRadius="4">
+                                                <Button Content="{Binding Data[Common.Delete], Source={StaticResource TranslationProxy}}" 
+                                                        Padding="12,8" 
+                                                        FontSize="12"
+                                                        Background="{StaticResource DangerColor}"
+                                                        Foreground="White"
+                                                        BorderThickness="0"
+                                                        CommandParameter="{Binding}"
+                                                        Click="DeleteProjectButton_Click"/>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!-- Message vide - Affiché SEULEMENT si Projects.Count == 0 -->
+                        <Border Background="#EEF2FF" CornerRadius="8" Padding="20" Margin="0,20,0,0"
+                                Visibility="{Binding Projects, Converter={StaticResource CollectionEmptyToVisibilityConverter}}">
+                            <TextBlock Text="{loc:Translate MainWindow.NoProjects}" 
+                                       Foreground="{StaticResource PrimaryColor}"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       FontSize="13"/>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </DockPanel>
+    </Border>
+</Window>

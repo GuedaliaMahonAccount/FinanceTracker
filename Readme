@@ -1,0 +1,10 @@
+if you change icon, change version num in Setup-Installer.iss
+and delete from pc
+and  .\BUILD-NEW-INSTALLER.ps1
+and  .\Publish-App.ps1
+
+go to inno setup controller
+build the Setup-Installer.iss
+
+go to Finance/installer
+run the new installer

@@ -174,17 +174,9 @@
     <None Include="Clear-WindowsIconCache.ps1" />
     <None Include="Configure-Icon.ps1" />
     <None Include="Deploy-Translations.ps1" />
-    <None Include="ETAPES-A-SUIVRE.md" />
     <None Include="Finance_TemporaryKey.pfx" />
     <None Include="Fix-Encoding.ps1" />
     <None Include="Fix-IconCache.ps1" />
-    <None Include="FIX-LOGO-GUIDE.md" />
-    <None Include="FIX-LOGO-README.md" />
-    <None Include="FIX-PERMISSIONS-DONNEES.md" />
-    <None Include="FIX-TRADUCTIONS.md" />
-    <None Include="GUIDE-PUBLICATION.md" />
-    <None Include="LISEZ-MOI-DABORD.md" />
-    <None Include="Localization\README.md" />
     <None Include="Localization\Resources\en.json" />
     <None Include="Localization\Resources\fr.json" />
     <None Include="Localization\Resources\he.json" />
@@ -194,10 +186,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Publish-App.ps1" />
-    <None Include="README-PUBLICATION.md" />
+    <None Include="Readme" />
     <None Include="Setup-Installer.iss" />
-    <None Include="SOLUTION-APPLIQUEE.md" />
-    <None Include="SOLUTION-COMPLETE.md" />
     <None Include="Test-DataPersistence.ps1" />
     <None Include="Test-Traductions.ps1" />
   </ItemGroup>
